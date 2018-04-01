@@ -31,5 +31,5 @@ run leap_vlc.py file
 
 ##### Modification
 
-for linux user , change cls command to clear on line 224
+for linux user , change cls command to clear on line 137
 Volume level can be chnage by changing volume value , for volume value 4 volume changes by two level approx.
