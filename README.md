@@ -1,6 +1,9 @@
 # hci
 Leap Motion applications
 
+download and install leap motion developer sdk for python from 
+https://leapmotion.cachefly.net/Protected/expiretime=1522507102/22be8e5bc056464fc3be9d88cba1174a/0b3509a/LeapDeveloperKit_3.2.1_win.zip
+
 No external libraries required.
 Work for linux mint and Windows.
 Working on Python 2.7.4

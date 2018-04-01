@@ -23,13 +23,10 @@ src_dir = os.getcwd()
 driver = webdriver.PhantomJS('{}\\phantomjs.exe'.format(src_dir))
 volume_level=10
 
-
-
 def executeCommand(command):
     #print command
     time.sleep(0.2)
     driver.get(command)
-
 
 def vlcCommand(key):
     global status,status_index,driver
@@ -57,23 +54,16 @@ def vlcCommand(key):
         command = 'http://localhost:8080/requests/status.xml?command=volume&val=-{}'.format(volume_level)
         executeCommand(command)
 
-
-
-
-
 def getDistance(a,b,threshold):
     distance = abs(a-b)
     if a>b :
         if distance >threshold:
-            return "positive"
+            return "previous"
     elif a<b:
         if distance >threshold:
-            return "negative"
+            return "next"
 
     return None
-
-
-
 
 def check(a,b):
     if a<0 and b<0:
@@ -81,7 +71,6 @@ def check(a,b):
     if a>0 and b>0:
         return True
     return False
-
 
 class SampleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
@@ -98,35 +87,14 @@ class SampleListener(Leap.Listener):
         frame = controller.frame()
         #print "Frame id: %d, timestamp: %d, hands: %d, fingers: %d" % (frame.id, frame.timestamp, len(frame.hands), len(frame.fingers))
         hand = frame.hands.rightmost
-        position = hand.palm_velocity
-        velocity = hand.palm_velocity
+        #position = hand.palm_velocity
+        #velocity = hand.palm_velocity
         direction = hand.direction
 
-        if self.position1 ==None:
-            self.position1=position[0]
-        elif self.position2==None:
-            self.position2=position[0]
-        else:
-            temp=self.position1
-            self.position1=position[0]
-            self.position2=temp
-        """
-        if self.position1!=None and self.position2 !=None:
-            if check(int(self.position1),int(self.position2)) != True:
-                print "No Gesture detected"
-            else:
-                print "Gesture detected"
-        """
+
         print "no. of hands : {} hands".format(len(frame.hands)) ,
 
-        flag = 0
-        """
-        if hand.is_left :
-            print "left hand"
-
-        if hand.is_right:
-            print "right hand"
-        """
+        flag = 0 #this is used to issue one command per frame
         pinch=hand.pinch_strength
 
         #print " pinch strenght : {} ".format(pinch)
@@ -135,19 +103,9 @@ class SampleListener(Leap.Listener):
             vlcCommand('play/pause')
             flag=1
 
-
-
         #print "finger {} ".format()
-
-        """
-        for finger in hand.fingers:
-            print self.finger_names[finger.type]
-        """
         #print "position : {} , velocity : {} , direction : {}".format(position,velocity,direction)
-
         #print getDistance(self.position1,self.position2)
-
-        temp=0
 
         for gesture in frame.gestures():
             if gesture.type is Leap.Gesture.TYPE_SWIPE:
@@ -155,36 +113,13 @@ class SampleListener(Leap.Listener):
                 #print "start position ",swipe.start_position
                 #print "current position " , swipe.position
                 distance=getDistance(swipe.start_position[0],swipe.position[0] ,10)
-                if temp == 0 :
-                    if distance == 'positive':
-                        distance = 'previous'
-                    else:
-                        distance='next'
-                    if flag ==0:
-                        vlcCommand(distance)
-                        flag=1
-                    temp=1
-                """
-                distance=getDistance(swipe.start_position[1],swipe.position[1])
-                if temp==0 :
-                    print "inside volume"
-                    if distance == 'positive':
-                        distance = 'volume up'
-                    else:
-                        distance='volume down'
+                if flag ==0:
                     vlcCommand(distance)
-                    temp=1
-                """
+                    flag=1
+
+
+
         #rotation_around_y_axis = hand.rotation_angle(start_frame, Vector.y_axis)
-
-        """
-        if self.start_frame !=None:
-            rotation_around_y_axis = hand.rotation_angle(self.start_frame, Leap.Vector.y_axis)
-            print rotation_around_y_axis
-
-        if len(frame.hands) !=0 :
-            self.start_frame=frame
-        """
 
         pitch = int(direction.pitch * Leap.RAD_TO_DEG)
         if pitch <=80 :
@@ -199,14 +134,29 @@ class SampleListener(Leap.Listener):
                         vlcCommand('volume up')
                     flag=1
 
-
-
         os.system('cls')
 
+        """
+                for finger in hand.fingers:
+            print self.finger_names[finger.type]
 
+                distance=getDistance(swipe.start_position[1],swipe.position[1])
+                if temp==0 :
+                    print "inside volume"
+                    if distance == 'positive':
+                        distance = 'volume up'
+                    else:
+                        distance='volume down'
+                    vlcCommand(distance)
+                    temp=1
 
+                if self.start_frame !=None:
+                    rotation_around_y_axis = hand.rotation_angle(self.start_frame, Leap.Vector.y_axis)
+                    print rotation_around_y_axis
 
-
+                if len(frame.hands) !=0 :
+                    self.start_frame=frame
+        """
 
 def main():
 
