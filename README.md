@@ -3,10 +3,10 @@
 Leap Motion applications
 
 download and install leap motion developer sdk for python from 
-https://developer.leapmotion.com/windows-vr
+` https://developer.leapmotion.com/windows-vr `
 
 Work for linux mint and Windows.
-Working on Python 2.7.4
+Working on `Python 2.7`
 
 # Prequisities
 
