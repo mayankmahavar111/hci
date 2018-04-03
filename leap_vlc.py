@@ -1,6 +1,7 @@
 import os, sys, inspect, thread, time,string
 src_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
-print src_dir
+#print "src dir : ",src_dir
+#print os.path.realpath(__file__)
 src_dir = string.replace(src_dir,'\\','/')
 
 arch_dir = 'lib/x64' if sys.maxsize > 2**32 else 'lib/x86'
