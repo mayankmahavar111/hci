@@ -100,6 +100,8 @@ class SampleListener(Leap.Listener):
 
         #print " pinch strenght : {} ".format(pinch)
 
+        """Pause and play"""
+
         if pinch > 0.5 and flag == 0 :
             vlcCommand('play/pause')
             flag=1
@@ -108,6 +110,8 @@ class SampleListener(Leap.Listener):
         #print "position : {} , velocity : {} , direction : {}".format(position,velocity,direction)
         #print getDistance(self.position1,self.position2)
 
+
+        """ Next and previous gesture """
         for gesture in frame.gestures():
             if gesture.type is Leap.Gesture.TYPE_SWIPE:
                 swipe = Leap.SwipeGesture(gesture)
@@ -122,6 +126,8 @@ class SampleListener(Leap.Listener):
 
         #rotation_around_y_axis = hand.rotation_angle(start_frame, Vector.y_axis)
 
+
+        """Volume up and Down"""
         pitch = int(direction.pitch * Leap.RAD_TO_DEG)
         if pitch <=80 :
             if self.prev_angle == None:
